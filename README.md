@@ -14,15 +14,92 @@ then destroyed in your browser.
 
 ## Install
 
-Unpacked, from this folder:
+There's no Chrome Web Store listing and no packaged `.crx` file. You load it
+straight from the source folder, which Chrome calls an *unpacked* extension.
+It takes a couple of minutes.
 
-1. `chrome://extensions` → turn on **Developer mode**
-2. **Load unpacked** → pick this folder
-3. Optional: Details → **Allow in Incognito**. Chrome makes you tick this per
-   extension; the manifest can't do it for you.
+### 1. Get the code
 
-Run `./bump.sh` after any edit, so the version in `chrome://extensions` tells
-you exactly what's on disk.
+Either clone it:
+
+```sh
+git clone https://github.com/damo2929/KeepThePage.git
+```
+
+or download the ZIP from the GitHub page (Code → Download ZIP) and unzip it.
+Put the folder somewhere it can stay. Chrome runs the extension from that
+folder every time, so if you move or delete it, the extension stops working.
+
+### 2. Load it into Chrome
+
+1. Go to `chrome://extensions`.
+2. Turn on **Developer mode**, top right.
+3. Click **Load unpacked** and pick the folder with `manifest.json` in it.
+   With a ZIP, that's the folder inside the one you unzipped, not the outer
+   one.
+4. **Keep The Page** appears in the list, switched on.
+
+### 3. Make it easy to reach
+
+Click the jigsaw icon in the toolbar and pin **Keep The Page**. Clicking its
+icon opens the settings page.
+
+### 4. Check it's running
+
+The version shows on the extension's card in `chrome://extensions`, and in the
+footer of the settings page. They should match `version_name` in
+`manifest.json`.
+
+To see it working, open a site that uses a consent banner. The banner should
+be refused or gone. For a closer look, turn on a channel under Tracing and
+watch the page's console (F12).
+
+### 5. Incognito (optional)
+
+Details → **Allow in Incognito**. Chrome makes you tick this per extension;
+the manifest can't do it for you. Without it, incognito windows get no
+protection.
+
+### Staying up to date
+
+It doesn't update itself. To pick up a new version:
+
+```sh
+cd KeepThePage
+git pull
+```
+
+(or download the ZIP again over the same folder), then press the reload
+button, the circular arrow on the extension's card in `chrome://extensions`.
+Your settings are kept.
+
+After a reload, open the settings page once. Chrome switches the Disqus block
+back on after an update, and opening the page puts your choice back.
+
+### Things Chrome will say
+
+- **"Disable developer mode extensions"** or similar. Some Chrome versions
+  warn about unpacked extensions at startup. It's Chrome being cautious about
+  anything not from the Web Store. Dismiss it; the extension keeps running.
+- **Errors button on the card.** Anything shown there is worth a look, and the
+  Errors section on the settings page lists what the guards caught.
+- **"This extension may soon no longer be supported."** Not expected: this is
+  a Manifest V3 extension, which is what Chrome requires now.
+
+Other Chromium browsers (Edge, Brave, Vivaldi) load unpacked extensions the
+same way from their own extensions page, e.g. `edge://extensions`. I've only
+tested it on Chrome.
+
+### Removing it
+
+Click **Remove** on its card in `chrome://extensions`. Chrome deletes its
+settings with it. Then delete the folder.
+
+### If you're changing the code
+
+Run `./bump.sh` after any edit, so the version on the card tells you exactly
+what's on disk, then press reload. See [Tests](#tests) before you trust a
+change.
 
 ## Settings
 
