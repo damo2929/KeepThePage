@@ -1,0 +1,22 @@
+[
+  {
+    "id": 1,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "||disqus.com^",
+      "excludedInitiatorDomains": ["disqus.com"],
+      "resourceTypes": ["script", "sub_frame", "xmlhttprequest", "stylesheet", "image", "font", "media", "ping", "other"]
+    }
+  },
+  {
+    "id": 2,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "||disquscdn.com^",
+      "excludedInitiatorDomains": ["disqus.com"],
+      "resourceTypes": ["script", "sub_frame", "xmlhttprequest", "stylesheet", "image", "font", "media", "ping", "other"]
+    }
+  }
+]

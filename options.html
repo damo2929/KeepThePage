@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Keep The Page — settings</title>
+<style>
+  :root {
+    color-scheme: light dark;
+    --fg: #1a1a1a;
+    --muted: #5d5d5d;
+    --bg: #ffffff;
+    --line: #dcdcdc;
+    --accent: #0b5fff;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --fg: #e8e8e8; --muted: #a0a0a0; --bg: #1c1c1e; --line: #3a3a3c; --accent: #6ea8ff; }
+  }
+  body {
+    margin: 0; padding: 18px 20px 22px;
+    min-width: 360px; max-width: 460px;
+    font: 13px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif;
+    color: var(--fg); background: var(--bg);
+  }
+  h1 { font-size: 15px; margin: 0 0 2px; }
+  .sub { color: var(--muted); font-size: 12px; margin: 0 0 16px; }
+  fieldset { border: 1px solid var(--line); border-radius: 6px; margin: 0 0 14px; padding: 10px 12px 12px; }
+  legend { font-weight: 600; padding: 0 5px; }
+  label { display: flex; align-items: flex-start; gap: 8px; padding: 4px 0; }
+  label input { margin: 2px 0 0; accent-color: var(--accent); }
+  .desc { color: var(--muted); font-size: 12px; display: block; }
+  #channels[aria-disabled="true"], #socialopts[aria-disabled="true"] { opacity: .45; }
+  .sub-group { margin: 6px 0 0 22px; }
+  .grouphead { font-weight: 600; margin: 10px 0 2px; font-size: 12px; }
+  .sub-group label input[type="radio"] { accent-color: var(--accent); }
+  .note { color: var(--muted); font-size: 12px; border-left: 2px solid var(--line); padding-left: 9px; margin: 0 0 14px; }
+  footer { border-top: 1px solid var(--line); padding-top: 10px; color: var(--muted); font-size: 12px;
+           display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+  #saved { color: var(--accent); opacity: 0; transition: opacity .15s; }
+  .credit { color: var(--muted); font-size: 11px; margin: 7px 0 0; }
+  #saved.on { opacity: 1; }
+  #errlist { list-style: none; margin: 0 0 10px; padding: 0; max-height: 190px; overflow-y: auto; }
+  #errlist li { border-top: 1px solid var(--line); padding: 6px 0; font-size: 12px; }
+  #errlist li:first-child { border-top: 0; }
+  #errlist .where { font-weight: 600; }
+  #errlist .meta { color: var(--muted); }
+  #errlist .msg { display: block; font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+                  word-break: break-word; }
+  textarea { box-sizing: border-box; width: 100%; margin: 4px 0 0; padding: 5px 7px;
+             font: 12px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace;
+             color: var(--fg); background: transparent; border: 1px solid var(--line);
+             border-radius: 5px; resize: vertical; }
+  textarea:focus { outline: none; border-color: var(--accent); }
+  button { font: inherit; padding: 4px 11px; border: 1px solid var(--line);
+           border-radius: 5px; background: transparent; color: var(--fg); cursor: pointer; }
+  button:hover { border-color: var(--accent); color: var(--accent); }
+</style>
+</head>
+<body>
+
+<h1>Keep The Page</h1>
+<p class="sub">Keeps publisher anti-adblock and consent-or-pay walls from hiding article pages.</p>
+
+<fieldset id="protectbox">
+  <legend>Protections</legend>
+  <p class="desc" style="margin:0 0 6px">All on by default. Turning one off writes
+     <code>data-ktp-off</code> to the page so the in-page guards can see it — with
+     everything on, the extension writes nothing to the page at all.</p>
+
+  <label><input type="checkbox" class="def" value="walls"><span>Ad walls
+    <span class="desc">Remove overlay and <code>&lt;dialog&gt;</code> walls, and
+      suppress the "disable your ad blocker" confirm boxes.</span></span></label>
+  <label title="Cannot be switched off">
+    <input type="checkbox" checked disabled><span>Timers — always on
+    <span class="desc">Drops the interval that deletes every stylesheet, and
+      timers scheduled from eval'd code on a page carrying the SDK. Scheduling
+      can happen before this page's settings have been read, so a switch would
+      be ignored in the window where it matters. Listed for honesty, not as a
+      choice.</span></span>
+  </label>
+  <label><input type="checkbox" class="def" value="consent"><span>Consent-or-pay walls
+    <span class="desc">Remove the CMP overlay when it is actually on screen, and
+      answer <code>__tcfapi</code> with every purpose and vendor denied.</span></span></label>
+  <label><input type="checkbox" class="def" value="cookies"><span>Consent records — refuse writes
+    <span class="desc">Refuse the cookie and <code>localStorage</code> keys that
+      store a consent record, so a consent you never gave is never saved or
+      replayed. On by default.</span></span></label>
+  <label><input type="checkbox" class="def" value="dom"><span>DOM protection
+    <span class="desc">Once a wall signature has been seen, block removal of
+      <code>&lt;body&gt;</code> and its children, and restore them if the page
+      empties itself.</span></span></label>
+  <label title="Cannot be switched off">
+    <input type="checkbox" checked disabled><span>Newsquest <code>adLight</code> flag — always on
+    <span class="desc">Pinned at <code>document_start</code>, before any setting
+      can be read, because it has to beat the page's own
+      <code>var adLight = false</code>. The property is non-configurable for the
+      same reason, so it cannot be undone once set. Listed here for honesty, not
+      as a choice.</span></span>
+  </label>
+</fieldset>
+
+<fieldset>
+  <legend>Tracing</legend>
+  <label>
+    <input type="checkbox" id="enabled">
+    <span>Enable tracing
+      <span class="desc">Logs what the guards do to the page console (<code>console.debug</code>), prefixed <code>[keep-the-page]</code>.</span>
+    </span>
+  </label>
+</fieldset>
+
+<p class="note">
+  Off by default, and off means silent: with tracing disabled the extension
+  writes no marker to the page at all. Turning it on sets an attribute on
+  <code>&lt;html&gt;</code> so the in-page guards can see which channels are
+  active — which a site could in principle detect. Fine for debugging, worth
+  turning back off afterwards.
+</p>
+
+<fieldset id="channels">
+  <legend>What to trace</legend>
+  <p class="desc" style="margin:0 0 6px">Logging only — these do not turn any
+     protection on or off. The switches are in <b>Protections</b> above, and the
+     names match one for one.</p>
+  <label><input type="checkbox" class="ch" value="walls"><span>Ad walls
+    <span class="desc">Signature detection, overlay and dialog removal.</span></span></label>
+  <label><input type="checkbox" class="ch" value="timers"><span>Timers
+    <span class="desc">Dropped stylesheet strippers and eval-scheduled timers.</span></span></label>
+  <label><input type="checkbox" class="ch" value="consent"><span>Consent-or-pay walls
+    <span class="desc">CMP overlays removed.</span></span></label>
+  <label><input type="checkbox" class="ch" value="cookies"><span>Consent records
+    <span class="desc">Cookie and localStorage writes refused.</span></span></label>
+  <label><input type="checkbox" class="ch" value="dom"><span>DOM protection
+    <span class="desc">Blocked removals, body restore and reattach.</span></span></label>
+  <label><input type="checkbox" class="ch" value="portal"><span>MSN and Bing feeds
+    <span class="desc">What the early stylesheet hides and what the sweep
+      removes, with timings — the channel to turn on if something flashes
+      before it disappears.</span></span></label>
+  <label><input type="checkbox" class="ch" value="newsquest"><span>Newsquest flag
+    <span class="desc">The <code>adLight</code> pin and its cookie guard.</span></span></label>
+</fieldset>
+
+<fieldset id="socialbox">
+  <legend>Social furniture</legend>
+  <label>
+    <input type="checkbox" id="social">
+    <span>Neutralise social links and icons
+      <span class="desc">Every link to a platform below is rewritten to
+        <code>http://localhost/removeme</code> — it goes nowhere, and one
+        selector shows everything that was targeted. The original URL is kept in
+        <code>data-ktp-was</code>.</span>
+    </span>
+  </label>
+
+  <div class="sub-group" id="socialopts">
+    <p class="grouphead">Platforms</p>
+    <label><input type="checkbox" class="plat" value="facebook"><span>Facebook
+      <span class="desc">facebook.com, fb.com, fb.me, messenger.com</span></span></label>
+    <label><input type="checkbox" class="plat" value="instagram"><span>Instagram
+      <span class="desc">instagram.com, instagr.am</span></span></label>
+    <label><input type="checkbox" class="plat" value="x"><span>X / Twitter
+      <span class="desc">x.com, twitter.com, t.co</span></span></label>
+    <label><input type="checkbox" class="plat" value="tiktok"><span>TikTok
+      <span class="desc">tiktok.com</span></span></label>
+    <label><input type="checkbox" class="plat" value="linkedin"><span>LinkedIn
+      <span class="desc">linkedin.com, lnkd.in</span></span></label>
+    <label><input type="checkbox" class="plat" value="snapchat"><span>Snapchat
+      <span class="desc">snapchat.com</span></span></label>
+
+    <p class="grouphead">What to do with them</p>
+    <label><input type="radio" name="mode" value="remove"><span>Hide and remove
+      <span class="desc">Share rows, follow icons and Facebook like buttons are
+        taken out of the page; anything else carrying the marker is hidden.</span></span></label>
+    <label><input type="radio" name="mode" value="mark"><span>Mark only, remove nothing
+      <span class="desc">Links are still defused — they point at the marker and
+        go nowhere — but nothing is removed or hidden, so you can see on the
+        page exactly what the other mode would take. Useful for checking a site
+        before trusting it.</span></span></label>
+
+    <p class="grouphead">Exceptions</p>
+    <label><input type="checkbox" id="keepLogins"><span>Keep sign-in links working
+      <span class="desc">"Continue with Facebook" and other OAuth, login, legal
+        and developer URLs are left alone. Turning this off can lock you out of
+        sites that offer no other way in.</span></span></label>
+    <label><input type="checkbox" id="keepText"><span>Keep article text
+      <span class="desc">A link inside a sentence is unwrapped rather than
+        hidden, so the words survive. With this off, "follow us on Facebook, X
+        and Instagram" reads "follow us on , and ."</span></span></label>
+  </div>
+
+  <label for="socialExcept" style="display:block;padding-top:8px"><span>URL exceptions
+    <span class="desc">Social links are left alone on these. One per line: a site
+      (<code>example.com</code>, subdomains included) or a URL prefix
+      (<code>example.com/forum</code>). Pasted URLs are fine.</span></span></label>
+  <textarea id="socialExcept" rows="3" spellcheck="false" autocomplete="off"
+            placeholder="example.com&#10;example.org/forum"></textarea>
+  <p class="desc" style="margin:8px 0 0">Changes apply to the next sweep.
+     Anything already removed from an open page comes back only on reload.</p>
+</fieldset>
+
+<fieldset id="widgetbox">
+  <legend>Comments</legend>
+  <label><input type="checkbox" id="hideComments"><span>Remove comments on all sites
+    <span class="desc">One switch for both halves. Comment sections, comment
+      counts and "N comments" links are hidden on every site, found by how
+      they name themselves (<code>comments-section</code>,
+      <code>post-comments</code>, <code>#disqus_thread</code>, ...), never by
+      site. Disqus is also blocked at the network, so its frame, login row,
+      ads and tracking never load; disqus.com itself still works. First-party
+      comments, such as IGN's, are hidden but still fetched. After an
+      extension update the Disqus block returns to on until this page is
+      opened again.</span></span></label>
+  <label for="commentsExcept" style="display:block;padding-top:8px"><span>URL exceptions
+    <span class="desc">Comments are left alone on these. One per line: a site
+      (<code>example.com</code>, subdomains included) or a URL prefix
+      (<code>example.com/forum</code>). Pasted URLs are fine. The Disqus block
+      still applies. A page may flash for a moment
+      on load before this list is read.</span></span></label>
+  <textarea id="commentsExcept" rows="4" spellcheck="false" autocomplete="off"
+            placeholder="example.com&#10;example.org/forum"></textarea>
+</fieldset>
+
+<fieldset id="newsletterbox">
+  <legend>Newsletter sign-ups</legend>
+  <label><input type="checkbox" id="hideNewsletter"><span>Remove newsletter sign-ups on all sites
+    <span class="desc">Popups and in-article boxes asking for your email. Found
+      by an email field inside something that calls itself a newsletter, or a
+      pop-over overlay asking you to subscribe, never by site. Login and
+      registration forms (anything with a password field) are left
+      alone.</span></span></label>
+  <label for="newsletterExcept" style="display:block;padding-top:8px"><span>URL exceptions
+    <span class="desc">Newsletter sign-ups are left alone on these. One per line: a site
+      (<code>example.com</code>, subdomains included) or a URL prefix
+      (<code>example.com/forum</code>). Pasted URLs are fine.</span></span></label>
+  <textarea id="newsletterExcept" rows="3" spellcheck="false" autocomplete="off"
+            placeholder="example.com&#10;example.org/forum"></textarea>
+</fieldset>
+
+<fieldset id="msnbox">
+  <legend>MSN and Bing feeds</legend>
+  <p class="desc" style="margin:0 0 6px">Both run the same widget stack, so one
+     set of switches covers them. MSN's own Content settings cannot do this job:
+     those are stored on Microsoft's servers against your anonymous MUID rather
+     than in a cookie, switching Comments off there leaves the comment links in
+     place, and none of it reaches bing.com at all.</p>
+  <label><input type="checkbox" id="portalComments"><span>Remove comments
+    <span class="desc">The comment count and link on every feed card.</span></span></label>
+  <label><input type="checkbox" id="portalCards"><span>Remove information cards
+    <span class="desc">Weather, finance, sports, the games tile and the
+      Booking / Temu / eBay lead-gen tiles. News cards are kept.</span></span></label>
+  <label><input type="checkbox" id="portalTabs"><span>Remove the section tabs
+    <span class="desc">News, Sports, Play, Money, Weather, Watch and Shopping
+      beside Discover, on MSN.</span></span></label>
+  <label><input type="checkbox" id="portalFeed"><span>Remove the feed entirely
+    <span class="desc">MSN's Discover river, and on Bing the below-the-fold
+      feed with its card carousel and homepage quiz. Homepage only — an
+      article's own page keeps its content.</span></span></label>
+
+  <p class="note" style="margin:10px 0 0">
+    <b>You will often see the MSN feed before it goes.</b> MSN sends its cards
+    inside the page itself and paints them early, and no extension code —
+    stylesheet or script — reliably beats that on every load. What these
+    switches guarantee is the end state, not a clean one: the content is
+    removed, and on Bing the feed data is never fetched at all. If the flash
+    matters more to you than the feed, MSN is better left on its own
+    <i>Personalise &rarr; Content settings</i>, which takes effect server-side
+    before the page is built.
+  </p>
+</fieldset>
+
+<fieldset id="errbox">
+  <legend>Errors <span id="errcount"></span></legend>
+  <p id="errnone" class="desc">Nothing reported. The guards swallow their own
+     exceptions so they can never break a page — anything they swallow lands here.</p>
+  <ul id="errlist"></ul>
+  <button id="clear" type="button">Clear</button>
+</fieldset>
+
+<footer>
+  <span id="about"></span>
+  <span id="saved">Saved</span>
+</footer>
+<p class="credit">MIT licensed · co-developed with Claude (Anthropic)</p>
+
+<script src="options.js"></script>
+</body>
+</html>

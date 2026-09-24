@@ -1,0 +1,22 @@
+[
+  {
+    "id": 1,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "||msn.com/pcs/api/widget/",
+      "initiatorDomains": ["bing.com", "msn.com"],
+      "resourceTypes": ["xmlhttprequest", "other"]
+    }
+  },
+  {
+    "id": 2,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "||assets.msn.com/service/segments/recoitems/",
+      "initiatorDomains": ["bing.com", "msn.com"],
+      "resourceTypes": ["xmlhttprequest", "other"]
+    }
+  }
+]
