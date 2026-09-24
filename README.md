@@ -465,11 +465,80 @@ and I've no argument with it. The paywalls on thetimes.com and theverge.com
 are left alone on purpose. What I object to is sending me the article, then
 running code on my machine to delete it.
 
+And there's a moral question in that, never mind the legal one. Who does this
+enforcement serve? Not the reader. It's there for the publisher's revenue,
+and it's done on the reader's hardware, with the reader's electricity and the
+reader's bandwidth, without asking. The publisher gets the benefit; you carry
+the cost and the risk of running obfuscated code you can't read.
+
+So why won't they enforce it on their own systems? They have the servers.
+They decide what goes out. Holding back the article from people they don't
+want to serve is the simplest thing they could do. Instead they send the
+whole article, then bring in a foreign vendor to delete it again on your computer.
+Is it because a full article in the page still gets indexed, shared and
+counted before it's taken off you? Is it because doing it properly would cost
+them, and doing it on your machine costs them nowt? Either way, if a rule
+only holds up when it's enforced on someone else's computer, without their
+say, that tells you summat about the rule.
+
+And why are people blocking ads in the first place? Because the ads got
+unbearable. Video that plays itself and follows you down the page in a
+pop-out box. Banners that shove the text about while you're reading it.
+Trackers by the hundred: accepting the consent wall on one set of titles
+shares your data with 1,467 partners. Nobody installs an ad blocker to hurt a
+newspaper. They install it to be able to read one.
+
+Then there's who the ads come from. The publisher doesn't serve most of them;
+third-party ad networks do, and a lot of them follow you from site to site
+with cookies and other identifiers. Worse, a third-party script loaded into a
+page runs with the same access as the page itself. It can read any cookie not
+locked away with `HttpOnly`, and anything you type into the page. Most ad
+networks don't abuse that. But the door is open, and malicious adverts have
+walked through it: fake login pages and malware delivered through ordinary ad
+slots on legitimate sites. Blocking ads is as much about security as it is
+about annoyance.
+
+And it isn't rare. The same ad networks that fill news pages carry
+malvertising and scams as a matter of routine: fake "your computer is
+infected" warnings, fake prize draws, fake celebrity endorsements pushing
+crypto and investment schemes. They sit in the same slots as the legitimate
+ads, on the same trusted news sites, because the networks sell the space by
+automated auction and don't check every buyer. People have lost life
+savings to adverts they first saw next to an article they trusted.
+
+That's the part I find hardest to square. The publisher picks the ad
+networks. The publisher lets their code onto the page, next to their own, with
+the same access. The publisher takes the money. When a bad advert gets
+through, it's the reader who pays for it: the tracking, the stolen login, the
+malware. The publisher carries next to none of that risk.
+
+Then, when a reader protects themselves from it, the publisher treats the
+reader as the problem and deletes the article. You don't get to fill a page with other
+people's code, take no responsibility for what that code does to your
+readers, and then punish the readers who'd rather not run it. If a publisher
+wants me to trust their ads, they can vet them, serve them from their own
+systems, and stand behind them. Until then, blocking them is common sense.
+
+If the ads were tolerable, most people wouldn't bother blocking them. Fix the
+ads and the blocking goes away on its own. Deleting the article from people
+who've had enough fixes nowt.
+
 Worth knowing who writes this code. Every vendor whose code I'm calling out
 here is based outside the United Kingdom: AdShield is reported to be South
 Korean, Sourcepoint is in New York (see [Where these vendors are
 based](#where-these-vendors-are-based)). The publishers who put it on their
 pages are British, and so are the readers whose computers it runs on.
+
+British publishers, British readers, and the code that does the deleting
+bought in from abroad. Is putting it outside the UK a defence? No.
+[Section 4(1)](https://www.legislation.gov.uk/ukpga/1990/18/section/4) says it
+doesn't matter where the act happened or where the person doing it was.
+[Section 5(3)(b)](https://www.legislation.gov.uk/ukpga/1990/18/section/5)
+brings it under the Act when the act is done to a computer in the UK. The
+reader's computer is here. As such it makes no difference where the vendor
+is, where the code is served from, or who the publisher brought in to run it.
+Outsourcing the code doesn't outsource the responsibility for putting it on
+the page.
 
 I'm not a lawyer and no court has ruled on this. The publishers would say that
 visiting their site authorises whatever scripts they serve. It's my argument,

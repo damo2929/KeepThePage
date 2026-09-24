@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "Keep The Page",
-  "version": "0.1.924.1030",
-  "version_name": "0.1 (2026-09-24 10:30)",
+  "version": "0.1.924.1043",
+  "version_name": "0.1 (2026-09-24 10:43)",
   "description": "Stops anti-adblock walls from hiding pages, and removes pop-out video ads and third-party widget clutter.",
   "permissions": [
     "declarativeNetRequest",
