@@ -465,7 +465,30 @@ and I've no argument with it. The paywalls on thetimes.com and theverge.com
 are left alone on purpose. What I object to is sending me the article, then
 running code on my machine to delete it.
 
-And there's a moral question in that, never mind the legal one. Who does this
+Worth knowing who writes this code. Every vendor whose code I'm calling out
+here is based outside the United Kingdom: AdShield is reported to be South
+Korean, Sourcepoint is in New York (see [Where these vendors are
+based](#where-these-vendors-are-based)). The publishers who put it on their
+pages are British, and so are the readers whose computers it runs on.
+
+British publishers, British readers, and the code that does the deleting
+bought in from abroad. Is putting it outside the UK a defence? No.
+[Section 4(1)](https://www.legislation.gov.uk/ukpga/1990/18/section/4) says it
+doesn't matter where the act happened or where the person doing it was.
+[Section 5(3)(b)](https://www.legislation.gov.uk/ukpga/1990/18/section/5)
+brings it under the Act when the act is done to a computer in the UK. The
+reader's computer is here. As such it makes no difference where the vendor
+is, where the code is served from, or who the publisher brought in to run it.
+Outsourcing the code doesn't outsource the responsibility for putting it on
+the page.
+
+I'm not a lawyer and no court has ruled on this. The publishers would say that
+visiting their site authorises whatever scripts they serve. It's my argument,
+not legal advice.
+
+### The moral argument
+
+Set the law aside and there's still a moral question. Who does this
 enforcement serve? Not the reader. It's there for the publisher's revenue,
 and it's done on the reader's hardware, with the reader's electricity and the
 reader's bandwidth, without asking. The publisher gets the benefit; you carry
@@ -488,6 +511,10 @@ Trackers by the hundred: accepting the consent wall on one set of titles
 shares your data with 1,467 partners. Nobody installs an ad blocker to hurt a
 newspaper. They install it to be able to read one.
 
+If the ads were tolerable, most people wouldn't bother blocking them. Fix the
+ads and the blocking goes away on its own. Deleting the article from people
+who've had enough fixes nowt.
+
 Then there's who the ads come from. The publisher doesn't serve most of them;
 third-party ad networks do, and a lot of them follow you from site to site
 with cookies and other identifiers. Worse, a third-party script loaded into a
@@ -503,8 +530,16 @@ malvertising and scams as a matter of routine: fake "your computer is
 infected" warnings, fake prize draws, fake celebrity endorsements pushing
 crypto and investment schemes. They sit in the same slots as the legitimate
 ads, on the same trusted news sites, because the networks sell the space by
-automated auction and don't check every buyer. People have lost life
-savings to adverts they first saw next to an article they trusted.
+automated auction and don't check every buyer. Which? found scam and fake-news
+adverts on popular UK news sites back in 2022
+([Which?, March 2022](https://www.which.co.uk/news/article/scams-fake-news-and-rip-offs-lurking-in-sponsored-ads-aUWAn1M420Z3)),
+and was still reporting in 2026 that they "land on the pages of popular news
+websites", with the sites unable to control which ads appear
+([Which?, January 2026](https://www.which.co.uk/news/article/how-automated-online-ads-are-used-by-scammers-aFFbX1u44KeO)).
+
+Investment fraud, the kind these fake endorsements push, cost UK victims £98
+million in the first half of 2025 alone, and one person lost over £162,000
+([Which?, October 2025](https://www.which.co.uk/news/article/how-crypto-investment-scammers-peddle-celebrity-deepfakes-online-with-ease-a12Pt9N4fXQy)).
 
 That's the part I find hardest to square. The publisher picks the ad
 networks. The publisher lets their code onto the page, next to their own, with
@@ -519,30 +554,13 @@ readers, and then punish the readers who'd rather not run it. If a publisher
 wants me to trust their ads, they can vet them, serve them from their own
 systems, and stand behind them. Until then, blocking them is common sense.
 
-If the ads were tolerable, most people wouldn't bother blocking them. Fix the
-ads and the blocking goes away on its own. Deleting the article from people
-who've had enough fixes nowt.
-
-Worth knowing who writes this code. Every vendor whose code I'm calling out
-here is based outside the United Kingdom: AdShield is reported to be South
-Korean, Sourcepoint is in New York (see [Where these vendors are
-based](#where-these-vendors-are-based)). The publishers who put it on their
-pages are British, and so are the readers whose computers it runs on.
-
-British publishers, British readers, and the code that does the deleting
-bought in from abroad. Is putting it outside the UK a defence? No.
-[Section 4(1)](https://www.legislation.gov.uk/ukpga/1990/18/section/4) says it
-doesn't matter where the act happened or where the person doing it was.
-[Section 5(3)(b)](https://www.legislation.gov.uk/ukpga/1990/18/section/5)
-brings it under the Act when the act is done to a computer in the UK. The
-reader's computer is here. As such it makes no difference where the vendor
-is, where the code is served from, or who the publisher brought in to run it.
-Outsourcing the code doesn't outsource the responsibility for putting it on
-the page.
-
-I'm not a lawyer and no court has ruled on this. The publishers would say that
-visiting their site authorises whatever scripts they serve. It's my argument,
-not legal advice.
+So before a publisher complains about ad blockers, they want to take a long
+look in the mirror. They fill the page with ads that track you, trip you up
+and sometimes scam you, take next to none of the blame when it goes wrong, and then
+answer readers who protect themselves by running code on those readers'
+computers that, as I've argued above, sits on the wrong side of the Computer
+Misuse Act.
+That's not the reader's behaviour that needs fixing.
 
 ### Where these vendors are based
 

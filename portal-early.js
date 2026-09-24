@@ -67,7 +67,7 @@
    *
    * Written only while the portal trace channel is on, so a normal install
    * still writes nothing to the page. */
-  const VERSION = '1043';
+  const VERSION = '1047';
   const mark = (extra) => {
     if (!traced()) return;
     try {
