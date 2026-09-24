@@ -46,6 +46,61 @@ The page, top to bottom:
 The footer shows the running version, read from the manifest. After a reload,
 check it against `version_name` and you know Chrome is running what's on disk.
 
+### Where your settings are kept, and how to clear them
+
+Everything the settings page saves goes into `chrome.storage.local`, Chrome's
+own storage for this extension. Nowt is sent anywhere, nothing syncs to your
+Google account, and nothing is written into the sites you visit.
+
+| Key | What it holds |
+|---|---|
+| `protect` | Protections you've switched off |
+| `trace` | Tracing on/off and the channels picked |
+| `social` | Social furniture switches, mode and exceptions |
+| `socialExceptions` | Your Social furniture URL exceptions |
+| `widgets` | The Comments and Newsletter switches |
+| `commentExceptions` | Your Comments URL exceptions |
+| `newsletterExceptions` | Your Newsletter URL exceptions |
+| `portal` | The MSN and Bing switches |
+| `errors` | The error log, last 50 |
+
+A key only exists once you've changed that setting. A fresh install has none
+and runs on the defaults.
+
+On disk it's a small LevelDB folder in your Chrome profile, named after the
+extension's id (shown on `chrome://extensions` with Developer mode on):
+
+```
+Linux     ~/.config/google-chrome/<Profile>/Local Extension Settings/<id>/
+macOS     ~/Library/Application Support/Google/Chrome/<Profile>/Local Extension Settings/<id>/
+Windows   %LOCALAPPDATA%\Google\Chrome\User Data\<Profile>\Local Extension Settings\<id>\
+```
+
+`<Profile>` is `Default` for the first profile, `Profile 1` and so on after
+that. Chromium uses `~/.config/chromium/` in place of `google-chrome`.
+
+To clean up, pick the one that fits:
+
+- **Clear one thing.** Empty an exceptions box, untick back to default, or
+  press Clear under Errors.
+- **Reset everything, keep the extension.** Open the settings page,
+  right-click → Inspect → Console, and run `chrome.storage.local.clear()`.
+  Close and reopen the settings page and you're back on the defaults. To
+  drop a single key: `chrome.storage.local.remove('socialExceptions')`.
+- **Remove the extension.** Chrome deletes its storage folder with it. Nothing
+  is left behind.
+- **By hand.** With Chrome closed, delete the `<id>` folder above.
+
+Two things that aren't stored as settings. The Disqus block's on/off state is
+held by Chrome itself; it goes back to on after an extension update until the
+settings page is opened again, and goes with the extension when it's removed.
+And the `data-ktp-*` markers the extension puts on a page only exist while
+that page is open. Close the tab and they're gone.
+
+The consent cookies the extension refuses are the sites' own, and it stops
+them being written. It never creates cookies of its own. Clearing a site's
+cookies is a normal Chrome job and nowt to do with this.
+
 ### Protections
 
 Every defence, each on by default. Switching one off writes `data-ktp-off` to
